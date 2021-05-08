@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "My orders";
+    List<EbuyNetwork.Models.Order> orders = ViewBag.orders;
+}
+
+<div style="width:100%;height:80px;"> hh </div>
+<ol class="breadcrumb">
+    <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+    <li class="active">My Orders</li>
+</ol>
+
+<div class="pad-6"></div>
+
+
+
+<div id="no-more-tables">
+    <table class="fullwidth table-bordered table-striped table-condensed cf">
+        <thead class="cf">
+            <tr>
+                <th style="text-align:center;" class="numeric">Item Image</th>
+                <th style="text-align:center;">Name</th>
+                <th style="text-align:center;">Ordered time</th>
+                <th style="text-align:center;" class="numeric">Price</th>
+            </tr> 
+        </thead>
+        <tbody>
+            @{
+                double totalPrice = 0f;
+                foreach (EbuyNetwork.Models.Order order in orders)
+                {
+                        <tr>
+                           <td  align="center" data-title="Item Image"> <img onclick="window.location='@Url.Action("Index","Item", new { item_id=order.item.id})'" style="width:80px;height:80px;"src="~/Content/Uploads/@order.item.imageFile" class="product-image fullwidth img-responsive img-thumbnail" />
+                            </td>
+                            <td align="center" data-title="Name">@order.item.name</td>
+                            <td  align="center" data-title="Ordered time">@order.orderedTime.ToString("yyyy-MM-dd H:m")</td>
+
+                            <td data-title="Price" align="center" class="numeric">@order.item.price.ToString("N2")</td>
+
+                        </tr>
+                    totalPrice += order.item.price;
+                }
+
+            }
+
+            <tr>
+                <td colspan="5"></td>
+                <td data-title="Total price" align="right" style="color:palevioletred;font-weight:bold">@totalPrice.ToString("N02")</td>
+                <td></td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    @if (orders.Count == 0)
+    {
+        <div class="alert alert-danger">No result found to display</div>
+    }
+
+</div>
+
+
+
+<div class="pad-6"></div>
+
+<div style="background: #0000FF;" class="btn btn-primary" onclick="window.location='@Url.Action("Index","Products")'"> Browse items</div>
+
+
+
+<script src="~/Scripts/MyOrders/MyOrdersScript.js"></script>

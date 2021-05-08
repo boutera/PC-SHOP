@@ -1,0 +1,167 @@
+﻿
+@{ EbuyNetwork.Models.Item item = ViewBag.item;
+    EbuyNetwork.Models.Order order = ViewBag.order;
+    EbuyNetwork.Models.User user = (EbuyNetwork.Models.User)Session["loggedUser"];
+    ViewBag.Title = item.name;
+    }
+
+<h2></h2>
+<div style="height:100px;width:100%;"> hh</div>
+<ol class="breadcrumb">
+    <li><a href="@Url.Action("Index","Home")">Home</a></li>
+    <li><a href="@Url.Action("Index","Products")">Products</a></li>
+    <li><a href="@Url.Action("Index","Products", new { category_id = item.category.id })">@item.category.name</a></li>
+    <li class="active">@EbuyNetwork.Models.EbuyNetwork.makeItemCode(item.id)</li>
+</ol>
+
+@if (user != null)
+{
+    if (item.userId == user.id)
+    {
+<div class="panel panel-default">
+    <div class="panel-heading"><b>Admin panel</b> <small><span class="glyphicon glyphicon-exclamation-sign"></span> only you can see this</small></div>
+    <div class="panel-body">
+
+        @if (item.isSold)
+        {
+<h4>Buyer information</h4>
+                        <div class="pad-6"></div>
+                                                <ul class="list-group">
+                                                    <li class="list-group-item"><b>Name : </b>@order.user.firstName @order.user.lastName</li>
+                                                    <li class="list-group-item"><b>Email : </b><a href="mailto:@order.user.email">@order.user.email</a></li>
+                                                    <li class="list-group-item"><b>Shipping address : </b>@order.user.address</li>
+                                                </ul>
+
+                                                                        <h4>Payment information</h4>
+                                                                                                <div class="pad-6"></div>
+                                                                                                                        <ul class="list-group">
+                                                                                                                            <li class="list-group-item"><b>Ordered Time : </b>@order.orderedTime.ToString("yy-mm-dd h:m:s")</li>
+                                                                                                                            <li class="list-group-item"><b>CIN : </b>@order.user.CIN</li>
+                                                                                                                        </ul>}
+
+
+    </div>
+
+
+</div>}
+            }
+
+
+
+
+<div class="all-hyperion-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                <!-- product-simple-area-start -->
+                <div class="product-simple-area ptb-80">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="view1">
+                                    <a class="image-link" href="~/Content/Uploads/@item.imageFile"><img style="width:450px; height:450px " src="~/Content/Uploads/@item.imageFile" alt=""></a>
+                                </div>
+
+                            </div>
+                            <!-- Nav tabs -->
+
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                            <div class="product-simple-content">
+                                <div class="sinple-c-title">
+                                    <h3>@item.name</h3>
+                                </div>
+                                <span style="color:red;font-size:20px;">  @item.category.name </span>
+                                <div class="checkbox">
+                                    <span><i class="fa fa-check-square" aria-hidden="true"></i>In stock</span>
+                                </div>
+
+
+                                <h4>@item.price.ToString("N2") DH</h4>
+
+                                <br />
+
+
+
+                                <div class="quick-add-to-cart">
+                                    <form method="post" class="cart">
+                                        @if (user != null)
+                                        {
+                                            if (user.id != item.userId)
+                                            {
+                                    <button class="btn btn-lg btn-success" onclick="orderItem(@item.id,@item.userId);"><span class="lnr lnr-cart"></span>Add to Cart</button> <!-- <button data-toggle="modal" data-target="#myModal" class="single_add_to_cart_button hyper-page" type="button"><span class="lnr lnr-cart"></span>Bulk Order</button> --> }
+                                    <div class="quick-add-to-cart">
+
+                                        <button type="button" class="btn btn-lg btn-warning col-sm-12"><span class="lnr lnr-cart"></span>Buy Now</button>
+                                    </div> }
+                                                else
+                                                {
+                                    <div class="btn btn-lg btn-success" onclick="window.location='@Url.Action("Index", "Login")'"><span class="lnr lnr-cart"></span>Add to Cart</div> <!-- <button data-toggle="modal" data-target="#myModal" class="single_add_to_cart_button hyper-page" type="button"><span class="lnr lnr-cart"></span>Bulk Order</button> -->}
+
+                                    </form>
+
+                                </div>
+                                <br />
+
+                               
+
+                                <br>
+                              
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- product-simple-area-end -->
+                <div class="product-info-detailed pb-80">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="product-info-tab">
+                                <!-- Nav tabs -->
+                                <ul class="product-info-tab-menu" role="tablist">
+                                    <li class="active"><a href="#details" data-toggle="tab">details</a></li>
+
+                                </ul>
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="details">
+                                        <div class="product-info-tab-content">
+                                            <p>@Html.Raw(item.description.Replace("\n", "<br>"))</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="hyper-banner pt-80 pb-40">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="single-banner">
+                                <a href="#"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+              
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div >
+        
+        <a href="@Url.Action("Index","Products", new { category_id = item.category.id })"><span class="glyphicon glyphicon-shopping-cart"></span> related products</a>
+    </div>
+
+<!-- Modal -->
+<!-- / Modal -->
+<!-- / Modal -->
+<script src="~/Scripts/Item/ItemScript.js"></script>

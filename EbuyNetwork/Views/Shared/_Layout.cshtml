@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Store</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap-dialog.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/Plugins/DatePicker/Css/bootstrap-datepicker.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/favicon.ico" rel="shortcut icon" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap-dialog.js"></script>
+    <script src="~/Content/Plugins/DatePicker/Js/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/Global/CommonScript.js"></script>
+
+
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+    <!-- all css here -->
+    <!-- bootstrap v3.3.6 css -->
+    <link rel="stylesheet" href="~/Scripts/css/bootstrap.min.css">
+    <!-- animate css -->
+    <link rel="stylesheet" href="~/Scripts/css/animate.css">
+    <!-- jquery-ui.min css -->
+    <link rel="stylesheet" href="~/Scripts/css/jquery-ui.min.css">
+    <!-- meanmenu css -->
+    <link rel="stylesheet" href="~/Scripts/css/meanmenu.min.css">
+    <!-- nivo-slider css -->
+    <link rel="stylesheet" href="~/Scripts/css/nivo-slider.css">
+    <!-- owl.carousel css -->
+    <link rel="stylesheet" href="~/Scripts/css/owl.carousel.css">
+    <!--linearicons css -->
+    <link rel="stylesheet" href="~/Scripts/css/linearicons-icon-font.min.css">
+    <!-- font-awesome css -->
+    <link rel="stylesheet" href="~/Scripts/css/font-awesome.min.css">
+    <!-- style css -->
+    <link rel="stylesheet" href="~/Scripts/css/style.css">
+    <!-- responsive css -->
+    <link rel="stylesheet" href="~/Scripts/css/responsive.css" />
+
+
+</head>
+<body>
+
+
+    <div style="" class="mainmenu-area home-page-2 mainmenu-area-4" id="main_h">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="mainmenu hidden-xs">
+                        <nav style="position:absolute;left:0px;width:100%;">
+                            <ul  style="        background: #28b7c5;
+        width: 100%;" >
+                                <li><a href="@Url.Action("Index","Home")">Home</a></li>
+                                <li><a href="@Url.Action("Index","Products")">Products</a></li>
+                                @if (Session["loggedUser"] != null)
+                                {
+                                    EbuyNetwork.Models.User luser = (EbuyNetwork.Models.User)Session["loggedUser"];
+                                    if (luser.email.Equals("admin@gmail.com") && luser.password.Equals("admin1234"))
+                                    {
+                            <li><a href="@Url.Action("Index","PostItem")">Add Product</a></li> }
+                                            else
+                                            {
+                            <li><a href="@Url.Action("Index","MyOrders")">Cart</a></li>
+}
+                    }
+                                <li><a href="@Url.Action("Index","AboutUs")">About Us</a></li>
+                                <li style="width:300px;height:50px;">
+                                    <div class="menu-search-box scnd-fix">
+
+                                        <form action="@Url.Action("Index", "Products")" method="get" id="jsearchform">
+                                            <input type="text" name="keyword" placeholder="Search here..." />
+                                            <button><span class="lnr lnr-magnifier"></span></button>
+                                        </form>
+
+                                    </div>
+                                </li>
+                                @if (Session["loggedUser"] == null)
+                                {
+                            <li style="position:absolute;right:20px;"><a href="@Url.Action("Index","Register")">Sign Up</a></li>
+                                            <li style="position:absolute;right:100px;"><a href="@Url.Action("Index","Login")">Login</a></li>
+}
+
+
+
+                                @if (Session["loggedUser"] != null)
+                                {
+                                    EbuyNetwork.Models.User luser = (EbuyNetwork.Models.User)Session["loggedUser"];
+                                    if (luser.email.Equals("admin@gmail.com") && luser.password.Equals("admin1234"))
+                                    {
+                            <li style="position:absolute;right:15px;">
+                                <a href="#">Welcome Mr.Admin <i class="fa fa-angle-down"></i></a>
+                                <ul class="click_menu_show">
+                                    <li>
+                                        <div style="background: #0000FF;" class="btn btn-primary btn-block" onclick="window.location='@Url.Action("Index", "MyProfile")';">Profile</div>
+                                    </li>
+                                    <li>
+                                        <div style="background: #0000FF;" onclick="window.location='@Url.Action("Index", "MyOrders")';" class="btn btn-primary btn-block">My Orders</div>
+                                    </li>
+                                    <li>
+                                        <div style="background: #0000FF;" onclick="window.location='@Url.Action("Index", "MyItems")';" class="btn btn-primary btn-block">My Products</div>
+                                    </li>
+                                    <li class="divider" style="color:black;height:10px;"> </li>
+
+                                    <li>
+                                        <div style="background:#000000;" onclick="window.location = '@Url.Action("Signout", "Login")';" class="btn btn-danger btn-block">Sign out</div>
+                                    </li>
+                                </ul>
+                            </li>
+                                }
+                                            else
+                                            {
+                            <li style="position:absolute;right:15px;">
+                                <a href="#">@luser.firstName @luser.lastName <i class="fa fa-angle-down"></i></a>
+                                <ul class="click_menu_show">
+                                    <li>
+                                        <div style="background: #0000FF;" class="btn btn-primary btn-block" onclick="window.location='@Url.Action("Index", "MyProfile")';">Profile</div>
+                                    </li>
+                                    <li>
+                                        <div style="background: #0000FF;" onclick="window.location='@Url.Action("Index", "MyOrders")';" class="btn btn-primary btn-block">Cart</div>
+                                    </li>
+                                    <li class="divider" style="color:black;height:10px;"> </li>
+
+                                    <li>
+                                        <div style="background:#000000;" onclick="window.location = '@Url.Action("Signout", "Login")';" class="btn btn-danger btn-block">Sign out</div>
+                                    </li>
+                                </ul>
+                            </li>
+}
+                    }
+
+
+                            </ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year </p>
+
+        </footer>
+    </div>
+    <!-- jquery latest version -->
+    <script src="~/Scripts/js/vendor/jquery-1.12.0.min.js"></script>
+    <!-- bootstrap js -->
+    <script src="~/Scripts/js/bootstrap.min.js"></script>
+    <!-- owl.carousel js -->
+    <script src="~/Scripts/js/owl.carousel.min.js"></script>
+    <!-- meanmenu js -->
+    <script src="~/Scripts/js/jquery.meanmenu.js"></script>
+    <!-- jquery-ui js -->
+    <script src="~/Scripts/js/jquery-ui.min.js"></script>
+    <!-- wow js -->
+    <script src="~/Scripts/js/wow.min.js"></script>
+    <!-- scrolly js -->
+    <script src="~/Scripts/js/jquery.scrolly.js"></script>
+    <!-- magnific-popup js -->
+    <script src="~/Scripts/js/jquery.magnific-popup.min.js"></script>
+    <!--  countdown js -->
+    <script src="~/Scripts/js/jquery.countdown.min.js"></script>
+    <!-- nivo.slider js -->
+    <script src="~/Scripts/js/jquery.nivo.slider.js"></script>
+    <!-- plugins js -->
+    <script src="~/Scripts/js/plugins.js"></script>
+    <!-- main js -->
+    <script src="~/Scripts/js/main.js"></script>
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap-dialog.js"></script>
+    <script src="~/Content/Plugins/DatePicker/Js/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/Global/CommonScript.js"></script>
+
+</body>
+</html>
+
+
+
+

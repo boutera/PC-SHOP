@@ -1,0 +1,199 @@
+﻿
+@{ ViewBag.Title = "Products";
+    List<EbuyNetwork.Models.Item> items = ViewBag.items; }
+
+<div style="width:100%;height:80px;"> hh </div>
+
+<ol class="breadcrumb">
+    <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+    <li class="active">Products</li>
+</ol>
+
+<div  class="bedroom-all-product-area ptb-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <form action="Products" method="get">
+
+                    <div class="bedroom-sideber">
+                        <div class="bedroom-title text-uppercase">
+                            <h4>Shopping Options</h4>
+                        </div>
+                    </div>
+                    <!-- price-slider-area-start -->
+                    <div class="price-slider-area">
+                        <h3 class="bedroom-side-title">price</h3>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-label">Price start</div>
+                                <input class="fullwidth form-control" type="number" min="0" name="startPrice" value="@ViewBag.startPrice" />
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-label">Price end</div>
+                                <input class="fullwidth form-control" type="number" min="0" name="endPrice" value="@ViewBag.endPrice" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- price-slider-area-end -->
+                    <!-- Category-start -->
+                    <!-- Category-end -->
+                    <!-- .sideber-color-start -->
+                    <div class="sideber-color mt-40">
+                        <h3 class="bedroom-side-title">Category</h3>
+
+                        <select class="form-control" name="category_id">
+                            <option value="0">Any category...</option>
+                            @foreach (EbuyNetwork.Models.Category cat in ViewBag.categories)
+                            {
+                                if (ViewBag.category_id == cat.id)
+                                {
+                <option value="@cat.id" selected>@cat.name</option> }
+                                else
+                                {
+                <option value="@cat.id">@cat.name</option>}
+
+                            }
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="pad-6 clearfix"></div>
+                            <input style="background: #0000FF;" type="submit" class="btn btn-primary" value="Filter results" />
+                           
+                            <div class="pad-6 clearfix"></div>
+                        </div>
+                    </div>
+
+                </form>
+
+
+
+     
+
+                <!-- Category-end -->
+                <!-- sideber-ads-start -->
+                <!--<div class="bedroom-sideber mt-40">
+        <div class="bedroom-title text-uppercase">
+            <h4>Compare Products</h4>
+        </div>
+        <p>You have no items to compare.</p>
+    </div>-->
+                <!--<div class="bedroom-sideber mt-40">
+        <div class="bedroom-title text-uppercase">
+            <h4>My Wish List</h4>
+        </div>
+        <p>You have no items in your wish list.</p>
+    </div>-->
+                <!-- sideber-ads-end -->
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                <!-- category-products-area-start -->
+                <div class="caregory-products-area">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                         
+                        </div>
+                        <div class="col-lg-10 col-md-9 col-sm-9 col-xs-12">
+                            <div class="product-option">
+                                <div class="porduct-option-left floatleft">
+                                    @{
+                                        int begin = 0;
+
+                                        int end = 0;
+                                        if (items.Count > 0) {
+                                             begin = 1 + ViewBag.page * 16;
+
+                                             end = (ViewBag.page + 1) * 16;
+
+                                            if (items.Count < 16)
+                                            {
+                                                end = items.Count + ViewBag.page * 16;
+
+                                            }
+
+
+                                        }
+                                       
+                                    }
+                                    <span> Items @begin - @end  of @ViewBag.totalResult</span>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="viewed">
+                            <div class="row">
+                                @foreach (EbuyNetwork.Models.Item item in ViewBag.items)
+                                {
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                        <div class="single-new-product mt-40 category-new-product">
+                            <div class="product-img">
+                                <a onclick="window.location='@Url.Action("Index","Item", new { item_id=item.id})'">
+                                    <img style="width:200px;height:200px;" src="Content/Uploads/@item.imageFile" class="first_img" alt="" />
+
+                                </a>
+
+                            </div>
+                            <div class="product-content text-center">
+                                <a onclick="window.location='@Url.Action("Index","Item", new { item_id=item.id})'"><h3> @item.name</h3></a>
+                                <div class="product-price-star">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                </div>
+                                <div class="price">
+                                    <h4>Rs @item.price.ToString("N02") DH</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>}
+
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- category-products-area-end -->
+                <!-- pagination-area-start -->
+                @if (items.Count == 0)
+                {
+                    <div>
+                        <div class="alert alert-danger"><span class="glyphicon glyphicon-exclamation-sign"></span> No item found to display.</div>
+                    </div>
+                }
+
+                <ul class="pagination">
+                    @for (int i = 0; i < ViewBag.totalPages; i++)
+                    {
+                        string url = ViewBag.qurl;
+                        url = url.Replace("pageNumber", i.ToString());
+                        if (i == ViewBag.page)
+                        {
+                            <li class="active"><a href="@url">@(i + 1)</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="@url">@(i + 1)</a></li>
+                        }
+
+                    }
+                </ul>
+
+            </div>
+            <!-- pagination-area-end -->
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
